@@ -1,0 +1,132 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+@keyframes fade-in-down {
+  0% { opacity: 0; transform: translateY(-20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in-up {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in-up-chat {
+  0% { opacity: 0; transform: translateY(20px) scale(0.9); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.animate-fade-in-down { animation: fade-in-down 0.6s ease-out; }
+.animate-fade-in-up { animation: fade-in-up 0.6s ease-out; }
+.animate-fade-in-up-chat { animation: fade-in-up-chat 0.3s ease-out; }
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply font-sans antialiased text-slate-200 bg-sb-navy;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0a1628;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #1e40af, #0f2744);
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #3b82f6;
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, #93c5fd, #38bdf8, #e2e8f0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hover-lift {
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 24px 48px rgba(15, 23, 42, 0.4);
+}
+
+.glass-panel {
+  @apply bg-white/[0.06] backdrop-blur-xl border border-white/[0.08] shadow-sb-card;
+}
+
+/* ============================
+   Typing headline (hero)
+   ============================ */
+
+/* The headline uses a phantom + overlay layering pattern:
+   - .typing-headline__phantom is rendered with `visibility: hidden` so it
+     reserves the heading's final width and height (no layout shift while the
+     visible text is still growing).
+   - .typing-headline__visible is absolutely positioned on top of the phantom
+     and contains the growing text + cursor. It inherits font metrics from the
+     heading so character widths line up exactly with the phantom. */
+.typing-headline {
+  position: relative;
+  display: inline-block;
+  max-width: 100%;
+}
+
+.typing-headline__phantom {
+  visibility: hidden;
+  pointer-events: none;
+  user-select: none;
+}
+
+.typing-headline__visible {
+  position: absolute;
+  inset: 0;
+  display: inline-block;
+  pointer-events: none;
+}
+
+/* Sleek vertical-bar cursor with a subtle accent glow that matches the
+   StudyBridge gradient. The "idle" state (after typing finishes) keeps a
+   slower blink for a polished feel. */
+.typing-cursor {
+  display: inline-block;
+  width: 3px;
+  height: 0.92em;
+  margin-left: 6px;
+  vertical-align: -0.12em;
+  border-radius: 2px;
+  background: linear-gradient(180deg, #60a5fa 0%, #38bdf8 50%, #06b6d4 100%);
+  box-shadow:
+    0 0 10px rgba(96, 165, 250, 0.55),
+    0 0 22px rgba(56, 189, 248, 0.25);
+  animation: typing-cursor-blink 1.05s steps(2, end) infinite;
+}
+
+.typing-cursor[data-state='idle'] {
+  animation-duration: 1.4s;
+  opacity: 0.85;
+}
+
+@keyframes typing-cursor-blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .typing-cursor {
+    animation: none;
+    opacity: 0.6;
+  }
+}
