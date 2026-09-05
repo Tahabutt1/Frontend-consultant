@@ -7,9 +7,17 @@
  */
 const raw = import.meta.env.VITE_API_URL || import.meta.env.VITE_API_BASE_URL
 const normalized =
-  typeof raw === 'string' && raw.trim().length > 0 ? raw.trim().replace(/\/$/, '') : ''
+  typeof raw === 'string' && raw.trim().length > 0
+    ? raw.trim().replace(/\/+$/, '').replace(/\/api\/?$/, '')
+    : ''
 
 export const API_ORIGIN = normalized
+
+if (import.meta.env.PROD && !API_ORIGIN) {
+  console.warn(
+    '[MRTK StudyBridge] VITE_API_URL is missing! Please configure VITE_API_URL in your Vercel Project Settings and redeploy.'
+  )
+}
 
 export function apiUrl(path) {
   const p = path.startsWith('/') ? path : `/${path}`
